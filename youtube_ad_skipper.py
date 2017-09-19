@@ -86,8 +86,8 @@ class YoutubePlayer:
         return videos[0]
 
     def go_next_video(self):
-        del self.current
-        del self.duration
+        self.current = None
+        self.duration = None
         self.next_video().click()
         sleep(1)
 
