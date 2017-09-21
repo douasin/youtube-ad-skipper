@@ -9,12 +9,21 @@ class YoutubePlayer:
     url = "https://www.youtube.com/"
     def __init__(self):
         #driver = webdriver.PhantomJS(executable_path="/home/douasin/youtube_skip/phantomjs-2.5.0-beta-ubuntu-xenial/bin/phantomjs")
+        self.black_sheet = self.load_black_sheet()
         self.has_ad = False
         self.current = None
         self.duration = None
         self.driver = webdriver.Chrome("../chromedriver")
         self.wait = ui.WebDriverWait(self.driver, 10)
         self.go_to_youtube_homepage()
+
+    def load_black_sheet(self):
+        if os.path.exists('black_sheet.txt'):
+            with open('black_sheet.txt', 'r') as finn:
+                black_sheet = finn.readlines()
+
+            return black_sheet
+        return []
 
     def go_to_youtube_homepage(self):
         self.driver.get(YoutubePlayer.url)
