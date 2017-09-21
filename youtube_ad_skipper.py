@@ -18,12 +18,18 @@ class YoutubePlayer:
         self.go_to_youtube_homepage()
 
     def load_black_sheet(self):
+        black_sheet = []
         if os.path.exists('black_sheet.txt'):
+            print("Find Black Sheet")
             with open('black_sheet.txt', 'r') as finn:
-                black_sheet = finn.readlines()
+                for i in  finn.readlines():
+                    black_sheet.append(i.strip())
 
-            return black_sheet
-        return []
+        else:
+            print("Doesn't find black_sheet.txt.")
+            print("You can create one.")
+
+        return black_sheet
 
     def go_to_youtube_homepage(self):
         self.driver.get(YoutubePlayer.url)
@@ -142,6 +148,13 @@ class YoutubePlayer:
         except:
             return None
 
+    def check_hate(self):
+        title = self.title().lower()
+        for hate in self.black_sheet:
+            if hate in title:
+                return True
+        return False
+
 if __name__ == "__main__":
     def prints(text):
         print(" "*os.get_terminal_size().columns, end="\r")
@@ -177,6 +190,11 @@ if __name__ == "__main__":
                 youtube.skip_ad()
 
         elif youtube.check_end():
+            youtube.go_next_video()
+
+        elif youtube.check_hate():
+            print("You hate '{}'".format(youtube.title()))
+            print("Skipping....")
             youtube.go_next_video()
 
         #youtube.choose_do()
