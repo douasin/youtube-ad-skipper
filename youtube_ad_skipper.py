@@ -16,6 +16,7 @@ class YoutubePlayer:
         self.driver = webdriver.Chrome("../chromedriver")
         self.wait = ui.WebDriverWait(self.driver, 10)
         self.go_to_youtube_homepage()
+        self.total_skip_ad = 0
 
     def load_black_sheet(self):
         black_sheet = []
@@ -141,8 +142,10 @@ class YoutubePlayer:
 
     def skip_ad(self):
         try:
-            self.driver.find_element_by_class_name("videoAdUiSkipButton").click()
             self.has_ad = False
+            self.total_skip_ad += 1
+            print("已跳過{}個廣告".format(self.total_skip_ad))
+            self.driver.find_element_by_class_name("videoAdUiSkipButton").click()
             sleep(1)
             #return self.driver.find_element_by_class_name("videoAdUiSkipButtonExperimentalText").text
         except:
